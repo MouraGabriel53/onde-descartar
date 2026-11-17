@@ -25,7 +25,8 @@ const P = {
   map: '<path d="m9 4-6 2.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4ZM9 4v13.5M15 6.5V20"/>',
   road: '<path d="M5 21 9 3M19 21 15 3M12 5v2M12 11v2M12 17v2"/>',
   leaf: '<path d="M5 19c0-8 5-14 15-14 0 10-6 15-14 15"/><path d="M5 19 13 11"/>',
-  papel: '<path d="M4 8 12 4l8 4v9l-8 4-8-4V8Z"/><path d="m4 8 8 4 8-4M12 12v9"/>',
+  papel: '<path d="M6 3h9l4 4v14H6V3Z"/><path d="M14 3v5h5M9 12h7M9 16h7"/>',
+  papelao: '<path d="M4 8 12 4l8 4v9l-8 4-8-4V8Z"/><path d="m4 8 8 4 8-4M12 12v9"/>',
   plastico: '<path d="M10 2h4v3l1.5 2.5V20a2 2 0 0 1-2 2h-3a2 2 0 0 1-2-2V7.5L10 5V2Z"/><path d="M8.5 12h7"/>',
   vidro: '<path d="M7 3h10l-1 7a4 4 0 0 1-8 0L7 3ZM12 14v7M8.5 21h7"/>',
   metal: '<ellipse cx="12" cy="5" rx="6" ry="2"/><path d="M6 5v14c0 1.1 2.7 2 6 2s6-.9 6-2V5"/><path d="M6 12c0 1.1 2.7 2 6 2s6-.9 6-2"/>',
@@ -34,13 +35,20 @@ const P = {
   oleo: '<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11Z"/>',
   moveis: '<path d="M5 11V8a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v4H3v-4ZM6 17v2M18 17v2"/>',
   entulho: '<path d="M3 20h18M4 20v-5h7v5M13 20v-5h7v5M7.5 15v-5h9v5"/>',
+  eletrodomesticos: '<rect x="5" y="2" width="14" height="20" rx="2"/><path d="M5 9h14M9 5.5v1M9 12v3"/>',
+  madeira: '<ellipse cx="6" cy="12" rx="3" ry="5"/><path d="M6 7h12c1.7 0 3 2.2 3 5s-1.3 5-3 5H6"/><circle cx="6" cy="12" r="1"/>',
+  gesso: '<path d="M5 8h14l-1.5 12h-11L5 8Z"/><path d="M4 8h16M8 8a4 4 0 0 1 8 0"/>',
+  isopor: '<path d="M3 9 12 5l9 4v7l-9 4-9-4V9Z"/><path d="m3 9 9 4 9-4M12 13v7M7.5 7v4M16.5 7v4"/>',
+  pneus: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v5M12 16v5M3 12h5M16 12h5"/>',
+  poda: '<path d="M12 22V12"/><path d="M12 12c-4 0-7-3-7-7 4 0 7 3 7 7ZM12 15c3.5 0 6-2.5 6-6-3.5 0-6 2.5-6 6Z"/><path d="M8 22h8"/>',
   especiais: '<path d="M12 3 2.5 20h19L12 3Z"/><path d="M12 10v4M12 17h.01"/>'
 }
 const icon = (name, cls = "") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name] || ""}</svg>`
 
 const MATERIAL_ICON = {
-  paper: "papel", plastic: "plastico", glass: "vidro", metal: "metal", electronics: "eletronicos",
-  batteries: "pilhas", cooking_oil: "oleo", furniture: "moveis", rubble: "entulho", special_waste: "especiais"
+  paper: "papel", cardboard: "papelao", plastic: "plastico", glass: "vidro", metal: "metal", electronics: "eletronicos",
+  appliances: "eletrodomesticos", batteries: "pilhas", cooking_oil: "oleo", furniture: "moveis", wood: "madeira",
+  plaster: "gesso", eps: "isopor", tires: "pneus", green_waste: "poda", rubble: "entulho", special_waste: "especiais"
 }
 
 const CONTACT_META = {
@@ -325,6 +333,7 @@ class PanelUI {
   render(place) {
     const { state } = this.app
     const hasHours = place.opening_hours.length > 0
+    const limited = place.materials.filter(m => m.notice)
     const status = hasHours ? openStatus(place.opening_hours) : null
     const { day } = nowInSaoPaulo()
     const ref = state.user || state.ref
@@ -370,7 +379,8 @@ class PanelUI {
       </section>
       ${place.materials.length ? `<section class="p-sec" aria-labelledby="sec-mat">
         <h3 class="p-sec-title" id="sec-mat">${icon("leaf")}Materiais aceitos</h3>
-        <div class="chips">${place.materials.map(m => `<span class="chip">${icon(MATERIAL_ICON[m.key])}${esc(m.name)}</span>`).join("")}</div>
+        <div class="chips">${place.materials.map(m => `<span class="chip">${icon(MATERIAL_ICON[m.key])}${esc(m.name)}${m.notice ? `<sup class="chip-mark" aria-hidden="true">*</sup>` : ""}</span>`).join("")}</div>
+        ${limited.length ? `<ul class="chips-limits">${limited.map(m => `<li><b>${esc(m.name)}:</b> ${esc(m.notice)}</li>`).join("")}</ul>` : ""}
         <p class="chips-note">Este ponto aceita apenas os materiais acima. Confira antes de levar seu descarte.</p>
       </section>` : ""}
       ${hasHours ? `<section class="p-sec" aria-labelledby="sec-hor">

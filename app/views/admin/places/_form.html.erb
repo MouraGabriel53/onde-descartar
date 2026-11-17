@@ -120,7 +120,7 @@
       <%= render "admin/places/field_error", errors: place.errors[:materials] %>
       <div class="check-grid">
         <%= f.collection_check_boxes :material_ids, Material.order(:name), :id, :name do |b| %>
-          <label class="check-inline"><%= b.check_box %> <%= b.text %></label>
+          <label class="check-inline"><%= b.check_box %> <span><%= b.text %><% if b.object.notice %> <small class="check-note" title="<%= b.object.notice %>">possui limites</small><% end %></span></label>
         <% end %>
       </div>
     </section>
