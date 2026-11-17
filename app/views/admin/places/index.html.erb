@@ -1,0 +1,57 @@
+<% content_for :title, "Pontos de descarte — Admin" %>
+<% content_for :body_attributes, ' class="admin"'.html_safe %>
+
+<header class="admin-header">
+  <div class="admin-brand">
+    <%= render "shared/logo" %>
+    <span class="wordmark"><span class="a">Onde</span><span class="b">Descartar</span></span>
+    <span class="admin-tag">Admin</span>
+  </div>
+  <div class="admin-header-actions">
+    <%= link_to "Ver mapa", root_path, class: "btn btn-ghost admin-btn" %>
+    <%= link_to "Novo ponto", new_admin_place_path, class: "btn btn-primary admin-btn" %>
+  </div>
+</header>
+
+<main class="admin-main">
+  <% if notice %>
+    <p class="admin-notice" role="status"><%= notice %></p>
+  <% end %>
+
+  <h1 class="admin-title">Pontos de descarte</h1>
+
+  <% if @places.empty? %>
+    <div class="admin-card admin-empty">Nenhum ponto cadastrado ainda. Use “Novo ponto” para começar.</div>
+  <% else %>
+    <div class="admin-card admin-table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Bairro / Cidade</th>
+            <th class="num">Materiais</th>
+            <th>Ativo</th>
+            <th><span class="sr-only">Ações</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @places.each do |place| %>
+            <tr>
+              <td class="strong"><%= place.name %></td>
+              <td><%= place.kind_label %></td>
+              <td><%= [ place.address&.neighborhood, place.address&.city ].compact.join(" / ") %></td>
+              <td class="num"><%= place.materials.size %></td>
+              <td><%= place.active? ? "Sim" : "Não" %></td>
+              <td class="actions">
+                <%= link_to "Editar", edit_admin_place_path(place), class: "btn btn-secondary admin-btn" %>
+                <%= button_to "Excluir", admin_place_path(place), method: :delete, class: "btn btn-ghost admin-btn danger",
+                      form: { data: { turbo_confirm: "Excluir este ponto?" } } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</main>

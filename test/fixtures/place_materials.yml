@@ -1,0 +1,3 @@
+bem_te_vi_rubble: { place: bem_te_vi, material: rubble }
+bem_te_vi_furniture: { place: bem_te_vi, material: furniture }
+closed_coop_paper: { place: closed_coop, material: paper }

@@ -1,0 +1,87 @@
+pt-BR:
+  activerecord:
+    models:
+      place:
+        one: Ponto
+        other: Pontos
+      address: Endereço
+      contact: Contato
+      opening_hour: Horário
+      material: Material
+    attributes:
+      place:
+        name: Nome
+        description: Descrição
+        kind: Tipo
+        active: Ativo
+        address: Endereço
+        materials: Materiais
+        opening_hours: Horários
+        contacts: Contatos
+        kinds:
+          ecopoint: Ecoponto
+          cooperative: Cooperativa de reciclagem
+          drop_off_point: Ponto de entrega voluntária
+          partner_store: Ponto de coleta em comércio
+      address:
+        street: Rua
+        number: Número
+        complement: Complemento
+        neighborhood: Bairro
+        city: Cidade
+        state: UF
+        zip_code: CEP
+        latitude: Latitude
+        longitude: Longitude
+      "place/address":
+        street: Rua
+        number: Número
+        complement: Complemento
+        neighborhood: Bairro
+        city: Cidade
+        state: UF
+        zip_code: CEP
+        latitude: Latitude
+        longitude: Longitude
+      contact:
+        kind: Tipo
+        value: Valor
+        kinds:
+          phone: Telefone
+          whatsapp: WhatsApp
+          email: E-mail
+          website: Site
+      "place/contacts":
+        kind: Tipo do contato
+        value: Contato
+      opening_hour:
+        weekday: Dia da semana
+        opens_at: Abre às
+        closes_at: Fecha às
+      "place/opening_hours":
+        weekday: Dia da semana
+        opens_at: Horário de abertura
+        closes_at: Horário de fechamento
+    errors:
+      models:
+        place:
+          attributes:
+            materials:
+              at_least_one: precisa ter pelo menos um material
+            opening_hours:
+              overlap: "têm intervalos sobrepostos em %{weekday}"
+            contacts:
+              duplicate: "têm o valor repetido %{value}"
+        contact:
+          attributes:
+            value:
+              invalid_phone: não é um telefone válido (use DDD + número)
+              invalid_whatsapp: não é um celular válido (use DDD + 9 dígitos)
+              invalid_email: não é um e-mail válido
+              invalid_website: não é um endereço de site válido (http ou https)
+        opening_hour:
+          attributes:
+            closes_at:
+              after_opens_at: precisa ser depois do horário de abertura
+            opens_at:
+              overlap: sobrepõe outro horário do mesmo dia

@@ -1,0 +1,174 @@
+<% content_for :body_attributes, ' class="admin"'.html_safe %>
+
+<header class="admin-header">
+  <div class="admin-brand">
+    <%= render "shared/logo" %>
+    <span class="wordmark"><span class="a">Onde</span><span class="b">Descartar</span></span>
+    <span class="admin-tag">Admin</span>
+  </div>
+  <div class="admin-header-actions">
+    <%= link_to "Voltar à lista", admin_root_path, class: "btn btn-ghost admin-btn" %>
+  </div>
+</header>
+
+<main class="admin-main">
+  <h1 class="admin-title"><%= heading %></h1>
+
+  <% if place.errors.any? %>
+    <div class="admin-card admin-errors" role="alert">
+      <strong>Não foi possível salvar o ponto:</strong>
+      <ul>
+        <% place.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= form_with model: [ :admin, place ], class: "admin-form" do |f| %>
+    <section class="admin-card">
+      <h2>Dados</h2>
+      <div class="form-grid">
+        <div class="form-field">
+          <%= f.label :kind, "Tipo" %>
+          <%= f.select :kind, Place.kind_options %>
+          <%= render "admin/places/field_error", errors: place.errors[:kind] %>
+        </div>
+        <div class="form-field grow">
+          <%= f.label :name, "Nome" %>
+          <%= f.text_field :name %>
+          <%= render "admin/places/field_error", errors: place.errors[:name] %>
+        </div>
+      </div>
+      <div class="form-field">
+        <%= f.label :description, "Descrição" %>
+        <%= f.text_area :description, rows: 3 %>
+        <%= render "admin/places/field_error", errors: place.errors[:description] %>
+      </div>
+      <label class="check-inline">
+        <%= f.check_box :active %> Ativo (aparece no mapa)
+      </label>
+    </section>
+
+    <section class="admin-card" data-controller="location-picker">
+      <h2>Endereço</h2>
+      <%= f.fields_for :address, place.address do |a| %>
+        <% address = a.object %>
+        <div class="form-grid">
+          <div class="form-field zip-field">
+            <%= a.label :zip_code, "CEP" %>
+            <%= a.text_field :zip_code, value: address.formatted_zip, inputmode: "numeric", autocomplete: "postal-code", placeholder: "00000-000", data: { location_picker_target: "zip", action: "input->location-picker#zipChanged" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:zip_code] %>
+          </div>
+          <p class="form-hint zip-status" data-location-picker-target="zipStatus" aria-live="polite">Digite o CEP para preencher o endereço automaticamente.</p>
+        </div>
+        <div class="form-grid">
+          <div class="form-field grow">
+            <%= a.label :street, "Rua" %>
+            <%= a.text_field :street, data: { location_picker_target: "street" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:street] %>
+          </div>
+          <div class="form-field narrow">
+            <%= a.label :number, "Número" %>
+            <%= a.text_field :number, data: { location_picker_target: "number", action: "change->location-picker#numberChanged" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:number] %>
+          </div>
+          <div class="form-field">
+            <%= a.label :complement, "Complemento" %>
+            <%= a.text_field :complement %>
+            <%= render "admin/places/field_error", errors: address.errors[:complement] %>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="form-field grow">
+            <%= a.label :neighborhood, "Bairro" %>
+            <%= a.text_field :neighborhood, data: { location_picker_target: "neighborhood" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:neighborhood] %>
+          </div>
+          <div class="form-field grow">
+            <%= a.label :city, "Cidade" %>
+            <%= a.text_field :city, data: { location_picker_target: "city" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:city] %>
+          </div>
+          <div class="form-field narrow">
+            <%= a.label :state, "UF" %>
+            <%= a.select :state, Address::STATES, { include_blank: true }, data: { location_picker_target: "state" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:state] %>
+          </div>
+        </div>
+
+        <p class="form-hint">Clique no mapa para marcar a localização, ou arraste o marcador.</p>
+        <div class="location-map" data-location-picker-target="map"></div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <%= a.label :latitude, "Latitude" %>
+            <%= a.number_field :latitude, step: 0.000001, data: { location_picker_target: "latitude", action: "input->location-picker#fieldsChanged" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:latitude] %>
+          </div>
+          <div class="form-field">
+            <%= a.label :longitude, "Longitude" %>
+            <%= a.number_field :longitude, step: 0.000001, data: { location_picker_target: "longitude", action: "input->location-picker#fieldsChanged" } %>
+            <%= render "admin/places/field_error", errors: address.errors[:longitude] %>
+          </div>
+        </div>
+      <% end %>
+    </section>
+
+    <section class="admin-card">
+      <h2>Materiais aceitos</h2>
+      <%= render "admin/places/field_error", errors: place.errors[:materials] %>
+      <div class="check-grid">
+        <%= f.collection_check_boxes :material_ids, Material.order(:name), :id, :name do |b| %>
+          <label class="check-inline"><%= b.check_box %> <%= b.text %></label>
+        <% end %>
+      </div>
+    </section>
+
+    <section class="admin-card" data-controller="nested-form">
+      <h2>Horários</h2>
+      <%= render "admin/places/field_error", errors: place.errors[:opening_hours] %>
+      <div data-nested-form-target="container">
+        <%= f.fields_for :opening_hours, include_id: false do |h| %>
+          <%= render "admin/places/opening_hour_fields", f: h %>
+        <% end %>
+      </div>
+      <template data-nested-form-target="template">
+        <%= f.fields_for :opening_hours, OpeningHour.new, child_index: "NEW_RECORD" do |h| %>
+          <%= render "admin/places/opening_hour_fields", f: h %>
+        <% end %>
+      </template>
+      <div class="row-actions">
+        <button type="button" class="btn btn-secondary admin-btn" data-action="nested-form#add">+ Adicionar horário</button>
+        <button type="button" class="btn btn-ghost admin-btn"
+                data-action="nested-form#addMany"
+                data-nested-form-weekdays-param="1,2,3,4,5"
+                data-nested-form-opens-at-param="08:00"
+                data-nested-form-closes-at-param="18:00">Seg–Sex 08:00–18:00</button>
+      </div>
+    </section>
+
+    <section class="admin-card" data-controller="nested-form">
+      <h2>Contatos</h2>
+      <%= render "admin/places/field_error", errors: place.errors[:contacts] %>
+      <div data-nested-form-target="container">
+        <%= f.fields_for :contacts, include_id: false do |c| %>
+          <%= render "admin/places/contact_fields", f: c %>
+        <% end %>
+      </div>
+      <template data-nested-form-target="template">
+        <%= f.fields_for :contacts, Contact.new, child_index: "NEW_RECORD" do |c| %>
+          <%= render "admin/places/contact_fields", f: c %>
+        <% end %>
+      </template>
+      <div class="row-actions">
+        <button type="button" class="btn btn-secondary admin-btn" data-action="nested-form#add">+ Adicionar contato</button>
+      </div>
+    </section>
+
+    <div class="form-actions">
+      <%= link_to "Cancelar", admin_root_path, class: "btn btn-ghost admin-btn" %>
+      <%= f.submit "Salvar ponto", class: "btn btn-primary admin-btn" %>
+    </div>
+  <% end %>
+</main>

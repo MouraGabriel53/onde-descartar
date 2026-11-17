@@ -1,0 +1,14 @@
+<% contact = f.object %>
+<div class="nested-row contact-row" data-nested-form-target="row" <%= "hidden" if contact.marked_for_destruction? %>>
+  <%= f.hidden_field :id if contact.persisted? %>
+  <%= f.hidden_field :_destroy, value: (contact.marked_for_destruction? ? "1" : "0"), data: { nested_form_target: "destroy" } %>
+  <div class="nested-cell">
+    <%= f.select :kind, Contact.kind_options, {}, aria: { label: "Tipo de contato" } %>
+    <%= render "admin/places/field_error", errors: contact.errors[:kind] %>
+  </div>
+  <div class="nested-cell grow">
+    <%= f.text_field :value, placeholder: "Telefone, e-mail ou site", aria: { label: "Contato" } %>
+    <%= render "admin/places/field_error", errors: contact.errors[:value] %>
+  </div>
+  <button type="button" class="btn btn-ghost admin-btn" data-action="nested-form#remove">Remover</button>
+</div>

@@ -1,0 +1,9 @@
+bem_te_vi_phone:
+  place: bem_te_vi
+  kind: phone
+  value: "+551100000101"
+
+closed_coop_email:
+  place: closed_coop
+  kind: email
+  value: contato@coop.org
