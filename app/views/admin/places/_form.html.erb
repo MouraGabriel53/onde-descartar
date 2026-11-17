@@ -129,7 +129,7 @@
       <h2>Horários</h2>
       <%= render "admin/places/field_error", errors: place.errors[:opening_hours] %>
       <div data-nested-form-target="container">
-        <%= f.fields_for :opening_hours do |h| %>
+        <%= f.fields_for :opening_hours, include_id: false do |h| %>
           <%= render "admin/places/opening_hour_fields", f: h %>
         <% end %>
       </div>
@@ -152,7 +152,7 @@
       <h2>Contatos</h2>
       <%= render "admin/places/field_error", errors: place.errors[:contacts] %>
       <div data-nested-form-target="container">
-        <%= f.fields_for :contacts do |c| %>
+        <%= f.fields_for :contacts, include_id: false do |c| %>
           <%= render "admin/places/contact_fields", f: c %>
         <% end %>
       </div>

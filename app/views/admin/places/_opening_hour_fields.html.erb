@@ -1,5 +1,6 @@
 <% hour = f.object %>
 <div class="nested-row" data-nested-form-target="row" <%= "hidden" if hour.marked_for_destruction? %>>
+  <%= f.hidden_field :id if hour.persisted? %>
   <%= f.hidden_field :_destroy, value: (hour.marked_for_destruction? ? "1" : "0"), data: { nested_form_target: "destroy" } %>
   <div class="nested-cell">
     <%= f.select :weekday, OpeningHour.weekday_options, { include_blank: true }, aria: { label: "Dia da semana" } %>

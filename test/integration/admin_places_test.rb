@@ -57,6 +57,24 @@ class AdminPlacesTest < ActionDispatch::IntegrationTest
     assert_select "[data-location-picker-target='zipStatus']"
   end
 
+  test "edit keeps each persisted row id inside its removable row" do
+    place = places(:bem_te_vi)
+    get edit_admin_place_path(place), headers: AUTH
+    assert_response :success
+    assert_select "input[name^='place[opening_hours_attributes]'][name$='[id]']", count: place.opening_hours.count
+    assert_select ".nested-row input[type='hidden'][name^='place[opening_hours_attributes]'][name$='[id]']", count: place.opening_hours.count
+    assert_select "input[name^='place[contacts_attributes]'][name$='[id]']", count: place.contacts.count
+    assert_select ".nested-row input[type='hidden'][name^='place[contacts_attributes]'][name$='[id]']", count: place.contacts.count
+  end
+
+  test "removing every opening hour leaves the place with none" do
+    place = places(:bem_te_vi)
+    attrs = place.opening_hours.each_with_index.to_h { |hour, i| [ i.to_s, { id: hour.id, _destroy: "1" } ] }
+    patch admin_place_path(place), params: { place: { opening_hours_attributes: attrs } }, headers: AUTH
+    assert_redirected_to admin_root_path
+    assert_empty place.reload.opening_hours
+  end
+
   test "edit renders a place without rows" do
     get edit_admin_place_path(places(:closed_coop)), headers: AUTH
     assert_response :success

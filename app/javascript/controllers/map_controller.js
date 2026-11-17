@@ -360,6 +360,7 @@ class PanelUI {
         <button class="btn btn-secondary" id="btn-share" type="button">${icon("share")}<span>Compartilhar endereço</span></button>
         ${contactButtons.length ? `<div class="btn-row ${contactButtons.length === 1 ? "single" : ""}">${contactButtons.join("")}</div>` : ""}
       </div>
+      <p class="p-notice" role="note">${icon("info")}<span>Antes de ir, confirme com o local se ele está aberto e se aceita os materiais que você vai levar. As informações podem estar desatualizadas.</span></p>
       <section class="p-sec" aria-labelledby="sec-end">
         <h3 class="p-sec-title" id="sec-end">${icon("pin")}Endereço</h3>
         <div class="addr">

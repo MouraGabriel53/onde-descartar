@@ -1,5 +1,6 @@
 <% contact = f.object %>
 <div class="nested-row contact-row" data-nested-form-target="row" <%= "hidden" if contact.marked_for_destruction? %>>
+  <%= f.hidden_field :id if contact.persisted? %>
   <%= f.hidden_field :_destroy, value: (contact.marked_for_destruction? ? "1" : "0"), data: { nested_form_target: "destroy" } %>
   <div class="nested-cell">
     <%= f.select :kind, Contact.kind_options, {}, aria: { label: "Tipo de contato" } %>
