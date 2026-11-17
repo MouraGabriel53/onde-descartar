@@ -1,1 +1,41 @@
-<div data-controller="map" data-map-url-value="<%= places_path(format: :json) %>"></div>
+<div data-controller="map" data-map-url-value="<%= places_path(format: :json) %>">
+  <div id="map" role="application" aria-label="Mapa de pontos de descarte"></div>
+
+  <header class="topbar">
+    <div class="brand" id="brand" aria-label="OndeDescartar">
+      <%= render "shared/logo" %>
+      <span class="wordmark"><span class="a">Onde</span><span class="b">Descartar</span></span>
+    </div>
+    <div class="search" id="search">
+      <form class="search-box" id="search-form" role="search">
+        <span class="brand-mini" id="brand-mini" aria-hidden="true"><%= render "shared/logo" %></span>
+        <span class="ico-search" id="ico-search" aria-hidden="true"></span>
+        <label for="q" class="sr-only">Buscar endereço</label>
+        <input id="q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"
+               placeholder="Buscar endereço, cidade, bairro ou CEP..."
+               role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
+        <button type="button" class="btn-clear" id="q-clear" aria-label="Limpar pesquisa"></button>
+      </form>
+      <div class="suggest" id="suggest" role="listbox" aria-label="Sugestões de endereço"></div>
+    </div>
+  </header>
+
+  <nav class="controls" aria-label="Controles do mapa">
+    <div class="ctrl-group"><button class="ctrl" id="c-locate" type="button" aria-label="Minha localização" data-tip="Minha localização"></button></div>
+    <div class="ctrl-group">
+      <button class="ctrl" id="c-in" type="button" aria-label="Aproximar" data-tip="Aproximar"></button>
+      <button class="ctrl" id="c-out" type="button" aria-label="Afastar" data-tip="Afastar"></button>
+    </div>
+    <div class="ctrl-group"><button class="ctrl" id="c-all" type="button" aria-label="Ver todos os pontos" data-tip="Ver todos os pontos"></button></div>
+  </nav>
+
+  <div class="nearby" id="nearby" role="status" aria-live="polite"></div>
+
+  <aside class="panel" id="panel" aria-hidden="true" aria-labelledby="panel-title">
+    <div class="sheet-handle" id="sheet-handle" role="button" tabindex="0" aria-label="Expandir ou recolher detalhes"><i></i></div>
+    <button class="p-close" id="panel-close" type="button" aria-label="Fechar detalhes"></button>
+    <div class="panel-scroll" id="panel-scroll"><div id="panel-body"></div></div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>

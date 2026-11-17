@@ -1,0 +1,17 @@
+<% hour = f.object %>
+<div class="nested-row" data-nested-form-target="row" <%= "hidden" if hour.marked_for_destruction? %>>
+  <%= f.hidden_field :_destroy, value: (hour.marked_for_destruction? ? "1" : "0"), data: { nested_form_target: "destroy" } %>
+  <div class="nested-cell">
+    <%= f.select :weekday, OpeningHour.weekday_options, { include_blank: true }, aria: { label: "Dia da semana" } %>
+    <%= render "admin/places/field_error", errors: hour.errors[:weekday] %>
+  </div>
+  <div class="nested-cell">
+    <%= f.time_field :opens_at, value: hour.opens_at&.strftime("%H:%M"), aria: { label: "Abre às" } %>
+    <%= render "admin/places/field_error", errors: hour.errors[:opens_at] %>
+  </div>
+  <div class="nested-cell">
+    <%= f.time_field :closes_at, value: hour.closes_at&.strftime("%H:%M"), aria: { label: "Fecha às" } %>
+    <%= render "admin/places/field_error", errors: hour.errors[:closes_at] %>
+  </div>
+  <button type="button" class="btn btn-ghost admin-btn" data-action="nested-form#remove">Remover</button>
+</div>
