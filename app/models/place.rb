@@ -55,7 +55,7 @@ class Place < ApplicationRecord
         zip_code: address.formatted_zip,
         full: address.full_address
       },
-      materials: materials.sort_by(&:name).map { |material| { key: material.key, name: material.name } },
+      materials: materials.sort_by(&:name).map { |material| { key: material.key, name: material.name, notice: material.notice } },
       opening_hours: opening_hours.sort_by { |hour| [ hour.weekday, hour.opens_at ] }.map(&:as_map_json),
       contacts: contacts.sort_by(&:id).map(&:as_map_json)
     }

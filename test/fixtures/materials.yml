@@ -1,10 +1,17 @@
-paper: { key: paper, name: Papel e papelão }
+paper: { key: paper, name: Papel }
+cardboard: { key: cardboard, name: Papelão }
 plastic: { key: plastic, name: Plásticos }
 glass: { key: glass, name: Vidros }
 metal: { key: metal, name: Metais }
 electronics: { key: electronics, name: Eletrônicos }
+appliances: { key: appliances, name: Eletrodomésticos }
 batteries: { key: batteries, name: Pilhas e baterias }
 cooking_oil: { key: cooking_oil, name: Óleo de cozinha }
 furniture: { key: furniture, name: Móveis }
-rubble: { key: rubble, name: Entulho }
+wood: { key: wood, name: Madeiras }
+plaster: { key: plaster, name: Gesso }
+eps: { key: eps, name: Isopor (EPS) }
+tires: { key: tires, name: Pneus, notice: "Limite: 4 unidades por pessoa." }
+green_waste: { key: green_waste, name: Resíduos de poda e jardinagem, notice: "Limite: 1 m³ ou 10 sacos de 100 litros por pessoa por mês." }
+rubble: { key: rubble, name: Resíduos de construção civil e demolição (entulho), notice: "Limite: 1 m³ ou 10 sacos de 100 litros por pessoa por mês." }
 special_waste: { key: special_waste, name: Resíduos especiais }

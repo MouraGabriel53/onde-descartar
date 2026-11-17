@@ -63,3 +63,4 @@ body.admin{height:auto;min-height:100%;overflow:visible;background:var(--soft)}
 .zip-field{flex:0 0 160px}
 .zip-status{align-self:flex-end;margin:0 0 10px}
 .zip-status.is-error{color:#B42318}
+.check-note{display:block;font-size:12px;font-weight:500;color:var(--muted)}

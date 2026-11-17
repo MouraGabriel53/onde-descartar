@@ -26,4 +26,14 @@ class MapTest < ActionDispatch::IntegrationTest
       assert_equal ADDRESS_KEYS, item["address"].keys.sort
     end
   end
+
+  test "places json exposes the material limit notice" do
+    get places_path(format: :json)
+
+    item = response.parsed_body.find { |entry| entry["id"] == places(:bem_te_vi).id }
+    rubble = item["materials"].find { |material| material["key"] == "rubble" }
+    furniture = item["materials"].find { |material| material["key"] == "furniture" }
+    assert_equal materials(:rubble).notice, rubble["notice"]
+    assert_nil furniture["notice"]
+  end
 end
