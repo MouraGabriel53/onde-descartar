@@ -20,9 +20,20 @@ bin/rails test
 
 Em development e test, o admin usa `admin`/`admin` se `ADMIN_USER`/`ADMIN_PASSWORD` não estiverem definidas.
 
-## Rodando com Docker
+## Rodando com Docker Compose (app + Postgres)
 
-O repositório tem só um `Dockerfile` (o de produção gerado pelo Rails 8). O banco é externo: não há docker-compose nem container de banco.
+O `compose.yml` sobe um Postgres próprio (`db`, com volume `pgdata`) e o app (`web`, construído pelo `Dockerfile`), lendo o `.env`:
+
+```bash
+cp .env.example .env
+docker compose up -d --build   # app em http://localhost:${APP_PORT:-3000}
+```
+
+O `web` roda sempre em `RAILS_ENV=production`, com `DB_HOST=db`. O Postgres fica publicado em `127.0.0.1:${DB_PORT}`, então o mesmo banco serve para rodar `bin/rails server` e `bin/rails test` localmente (`DB_HOST=localhost`). Se as portas 3000 ou 5432 já estiverem em uso, troque `APP_PORT` e `DB_PORT` no `.env`.
+
+## Rodando só o Dockerfile (Postgres externo)
+
+O `Dockerfile` é o de produção gerado pelo Rails 8 e também funciona sozinho, com um Postgres externo:
 
 ```bash
 docker build -t onde-descartar .
