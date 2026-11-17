@@ -1,0 +1,10 @@
+paper: { key: paper, name: Papel e papelão }
+plastic: { key: plastic, name: Plásticos }
+glass: { key: glass, name: Vidros }
+metal: { key: metal, name: Metais }
+electronics: { key: electronics, name: Eletrônicos }
+batteries: { key: batteries, name: Pilhas e baterias }
+cooking_oil: { key: cooking_oil, name: Óleo de cozinha }
+furniture: { key: furniture, name: Móveis }
+rubble: { key: rubble, name: Entulho }
+special_waste: { key: special_waste, name: Resíduos especiais }

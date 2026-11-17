@@ -1,0 +1,10 @@
+bem_te_vi:
+  name: Ecoponto Bem-te-vi
+  description: Recebe entulho e móveis.
+  kind: ecopoint
+  active: true
+
+closed_coop:
+  name: Cooperativa Desativada
+  kind: cooperative
+  active: false

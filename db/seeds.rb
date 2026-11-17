@@ -1,9 +1,17 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+MATERIALS = {
+  "paper" => "Papel e papelão",
+  "plastic" => "Plásticos",
+  "glass" => "Vidros",
+  "metal" => "Metais",
+  "electronics" => "Eletrônicos",
+  "batteries" => "Pilhas e baterias",
+  "cooking_oil" => "Óleo de cozinha",
+  "furniture" => "Móveis",
+  "rubble" => "Entulho",
+  "special_waste" => "Resíduos especiais"
+}.freeze
+
+MATERIALS.each do |key, name|
+  material = Material.find_or_create_by!(key: key) { |m| m.name = name }
+  material.update!(name: name) if material.name != name
+end

@@ -1,0 +1,21 @@
+bem_te_vi:
+  place: bem_te_vi
+  street: Rua das Embaúbas
+  number: "480"
+  neighborhood: Vila Mariana
+  city: São Paulo
+  state: SP
+  zip_code: "04101000"
+  latitude: -23.585
+  longitude: -46.637
+
+closed_coop:
+  place: closed_coop
+  street: Avenida Exemplo
+  number: s/n
+  neighborhood: Mooca
+  city: São Paulo
+  state: SP
+  zip_code: "03101000"
+  latitude: -23.55
+  longitude: -46.6
