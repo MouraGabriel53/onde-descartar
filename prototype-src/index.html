@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>OndeDescartar — Encontre ecopontos perto de você</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>/*LEAFLET_CSS*/</style>
+<style>/*APP_CSS*/</style>
+</head>
+<body>
+<div id="map" role="application" aria-label="Mapa de ecopontos"></div>
+
+<header class="topbar">
+  <div class="brand" id="brand" aria-label="OndeDescartar"></div>
+  <div class="search" id="search">
+    <form class="search-box" id="search-form" role="search">
+      <span class="brand-mini" id="brand-mini" aria-hidden="true"></span>
+      <span class="ico-search" id="ico-search" aria-hidden="true"></span>
+      <label for="q" class="sr-only">Buscar endereço</label>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" enterkeyhint="search"
+             placeholder="Buscar endereço, cidade, bairro ou CEP..."
+             role="combobox" aria-expanded="false" aria-controls="suggest" aria-autocomplete="list">
+      <button type="button" class="btn-clear" id="q-clear" aria-label="Limpar pesquisa"></button>
+    </form>
+    <div class="suggest" id="suggest" role="listbox" aria-label="Sugestões de endereço"></div>
+  </div>
+</header>
+
+<nav class="controls" aria-label="Controles do mapa">
+  <div class="ctrl-group"><button class="ctrl" id="c-locate" type="button" aria-label="Minha localização" data-tip="Minha localização"></button></div>
+  <div class="ctrl-group">
+    <button class="ctrl" id="c-in" type="button" aria-label="Aproximar" data-tip="Aproximar"></button>
+    <button class="ctrl" id="c-out" type="button" aria-label="Afastar" data-tip="Afastar"></button>
+  </div>
+  <div class="ctrl-group"><button class="ctrl" id="c-all" type="button" aria-label="Ver todos os ecopontos" data-tip="Ver todos os ecopontos"></button></div>
+</nav>
+
+<button class="demo-chip" id="demo-chip" type="button"><span class="dot"></span>Dados demonstrativos<span id="demo-ico"></span></button>
+<div class="nearby" id="nearby" role="status" aria-live="polite"></div>
+
+<aside class="panel" id="panel" aria-hidden="true" aria-labelledby="panel-title">
+  <div class="sheet-handle" id="sheet-handle" role="button" tabindex="0" aria-label="Expandir ou recolher detalhes"><i></i></div>
+  <button class="p-close" id="panel-close" type="button" aria-label="Fechar detalhes"></button>
+  <div class="panel-scroll" id="panel-scroll"><div id="panel-body"></div></div>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="scrim" id="about" aria-hidden="true">
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="about-title">
+    <div class="dlg-brand" id="dlg-brand"></div>
+    <h2 id="about-title">Sobre esta demonstração</h2>
+    <p>O OndeDescartar ajuda você a encontrar onde descartar resíduos do jeito certo: abra o mapa, toque em um ponto, confira o que ele aceita e trace a rota.</p>
+    <ul>
+      <li><b>Ecopontos fictícios.</b> Nomes, endereços, telefones e sites foram inventados. As posições ficam em bairros reais de São Paulo só para dar coerência ao mapa.</li>
+      <li><b>Mapa-base offline.</b> Limites de estados, municípios (IBGE) e distritos de SP, desenhados sem serviços externos.</li>
+      <li><b>Busca local.</b> Bairros de SP, municípios e estados do Brasil, faixas de CEP e referências conhecidas. Em produção, entra um serviço de geocodificação.</li>
+      <li><b>Localização.</b> Se o navegador bloquear, use “Simular” para testar.</li>
+    </ul>
+    <div class="swatches">
+      <div class="sw"><i style="background:#18A06A"></i><span>Verde<small>#18A06A</small></span></div>
+      <div class="sw"><i style="background:#1F5FD6"></i><span>Azul<small>#1F5FD6</small></span></div>
+      <div class="sw"><i style="background:#FFFFFF;border-bottom:1px solid #E3E9F2"></i><span>Branco<small>#FFFFFF</small></span></div>
+    </div>
+    <button class="btn btn-primary" id="about-ok" type="button">Voltar ao mapa</button>
+  </div>
+</div>
+
+<script>/*LEAFLET_JS*/</script>
+<script>/*GEO_JS*/</script>
+<script>/*DATA_JS*/</script>
+<script>/*APP_JS*/</script>
+</body>
+</html>
