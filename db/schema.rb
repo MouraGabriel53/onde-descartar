@@ -41,7 +41,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000006) do
     t.datetime "updated_at", null: false
     t.index ["place_id", "kind", "value"], name: "index_contacts_on_place_id_and_kind_and_value", unique: true
     t.index ["place_id"], name: "index_contacts_on_place_id"
-    t.check_constraint "kind::text = ANY (ARRAY['phone'::character varying, 'whatsapp'::character varying, 'email'::character varying, 'website'::character varying]::text[])", name: "contacts_kind_check"
+    t.check_constraint "kind::text = ANY (ARRAY['phone'::character varying::text, 'whatsapp'::character varying::text, 'email'::character varying::text, 'website'::character varying::text])", name: "contacts_kind_check"
   end
 
   create_table "materials", force: :cascade do |t|
@@ -84,7 +84,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_17_000006) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["kind"], name: "index_places_on_kind"
-    t.check_constraint "kind::text = ANY (ARRAY['ecopoint'::character varying, 'cooperative'::character varying, 'drop_off_point'::character varying, 'partner_store'::character varying]::text[])", name: "places_kind_check"
+    t.check_constraint "kind::text = ANY (ARRAY['ecopoint'::character varying::text, 'cooperative'::character varying::text, 'drop_off_point'::character varying::text, 'partner_store'::character varying::text])", name: "places_kind_check"
   end
 
   add_foreign_key "addresses", "places", on_delete: :cascade
