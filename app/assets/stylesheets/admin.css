@@ -60,3 +60,6 @@ body.admin{height:auto;min-height:100%;overflow:visible;background:var(--soft)}
 .row-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
 
 .form-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:8px}
+.zip-field{flex:0 0 160px}
+.zip-status{align-self:flex-end;margin:0 0 10px}
+.zip-status.is-error{color:#B42318}

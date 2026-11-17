@@ -47,6 +47,16 @@ class AdminPlacesTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "new form wires the CEP lookup to the address fields" do
+    get new_admin_place_path, headers: AUTH
+    assert_response :success
+    assert_select "input[data-location-picker-target='zip'][data-action='input->location-picker#zipChanged']"
+    assert_select "input[data-location-picker-target='number'][data-action='change->location-picker#numberChanged']"
+    %w[street neighborhood city].each { |field| assert_select "input[data-location-picker-target='#{field}']" }
+    assert_select "select[data-location-picker-target='state']"
+    assert_select "[data-location-picker-target='zipStatus']"
+  end
+
   test "edit renders a place without rows" do
     get edit_admin_place_path(places(:closed_coop)), headers: AUTH
     assert_response :success
