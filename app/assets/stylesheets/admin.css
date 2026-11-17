@@ -1,4 +1,5 @@
-body.admin{height:auto;min-height:100%;overflow:auto;background:var(--soft)}
+html:has(body.admin){height:auto;overflow:auto}
+body.admin{height:auto;min-height:100%;overflow:visible;background:var(--soft)}
 
 .admin-header{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 24px;background:#fff;box-shadow:var(--shadow-sm)}
 .admin-brand{display:flex;align-items:center;gap:10px}
